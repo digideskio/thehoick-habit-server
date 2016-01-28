@@ -33,20 +33,33 @@
       p {
         font-family: 'Ubuntu', sans-serif;
       }
-
-      a {
-        color: #F4AA31;
-      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="wrapper">
-        <h1>Welcome to The Hoick Habit Server</h1>
-        <h4>There is a JSON API.</h4>
+        <h1>Help for The Hoick Habit Server</h1>
 
         <p>
-          See the <a href="/help">Help</a> page for more details.
+          At this point the server can only handle saving JSON data for PouchDB on <strong>/habits/:username</strong>, where <em>:username</em> is an object keygen
+          with an array of habits.
+        </p>
+
+        <p>
+          The server accepts JSON via HTTP POST.  For example:
+        </p>
+
+        <code>
+          {
+            username: [
+              {name: 'Meditate', days: [], reminder: null},
+              {name: 'Clean', days: [], reminder: '11:30'}
+            ]
+          }
+        </code>
+
+        <p>
+          Also, HTTP GET <strong>/habits/:username</strong> will return JSON for the user and their habits.
         </p>
       </div>
     </div>

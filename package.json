@@ -4,8 +4,10 @@
   "description": "Server for saving Habit data.",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "express": "^4.13.4",
-    "pouchdb": "^5.2.0"
+    "pouchdb": "^5.2.0",
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {},
   "scripts": {
