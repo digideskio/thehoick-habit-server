@@ -66,7 +66,7 @@ app.get('/habits/:username', function(req, res) {
   // Get habits array from database.
   db.get(req.params.username, function (error, doc) {
     if (error) {
-      res.status(404).json(error);
+      res.status(error.status).json(error);
     }
     res.json(doc);
   });
