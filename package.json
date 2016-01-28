@@ -1,0 +1,20 @@
+{
+  "name": "thehoick-habit-server",
+  "version": "0.0.1",
+  "description": "Server for saving Habit data.",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "pouchdb": "^5.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asommer70/thehoick-habit-server"
+  },
+  "author": "Adam Sommer",
+  "license": "ISC"
+}
