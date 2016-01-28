@@ -19,26 +19,19 @@ app.use('/assets', express.static(__dirname + '/public'));
 // Return a simple welcome message.
 app.get('/', function(req, res) {
   fs.readFile('./public/welcome.html', function (err, html) {
-    // res.writeHeader(200, {"Content-Type": "text/html"});
-    // res.write(html);
-    // res.end();
     res.set('Content-Type', 'text/html');
     res.send(html);
   });
 });
 
-// GET /habits/:username
-app.get('/habits/:username', function(req, res) {
-  // Get habits array from database.
-  db.get(req.params.username, function (error, doc) {
-    if (error) {
-      res.status(404).json(error);
-    }
-    res.json(doc);
+// GET /habits
+app.get('/habits', function(req, res) {
+  db.allDocs(function(error, docs) {
+    res.json(docs);
   });
 });
 
-// POST /habits/:username
+// POST /habits/
 app.post('/habits', function(req, res) {
   // Look for the document in the database.
   db.get(req.body.username, (error, doc) => {
@@ -68,6 +61,17 @@ app.post('/habits', function(req, res) {
   })
 });
 
+// GET /habits/:username
+app.get('/habits/:username', function(req, res) {
+  // Get habits array from database.
+  db.get(req.params.username, function (error, doc) {
+    if (error) {
+      res.status(404).json(error);
+    }
+    res.json(doc);
+  });
+});
+
 // DELETE /habits/:username
 app.delete('/habits', function(req, res) {
   // Lookup username.
@@ -86,9 +90,6 @@ app.delete('/habits', function(req, res) {
 // Return a simple 404 page.
 app.get('/help', function(req, res) {
   fs.readFile('./public/help.html', function (err, html) {
-    // res.writeHeader(200, {"Content-Type": "text/html"});
-    // res.write(html);
-    // res.end();
     res.set('Content-Type', 'text/html');
     res.send(html);
   });
@@ -98,9 +99,6 @@ app.get('/help', function(req, res) {
 // Return a simple 404 page.
 app.get(/.*/, function(req, res) {
   fs.readFile('./public/404.html', function (err, html) {
-    // res.writeHeader(200, {"Content-Type": "text/html"});
-    // res.write(html);
-    // res.end();
     res.set('Content-Type', 'text/html');
     res.send(html);
   });
