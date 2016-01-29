@@ -53,9 +53,8 @@ app.get('/users/rollback/:username', function(req, res) {
     db.upsert(oldDoc._id, function(doc) {
       doc.habits = oldDoc.habits || [];
       return doc;
-    }).then(function (res) {
+    }).then((result) => {
       // success!
-      console.log('upsert doc:', res);
       res.redirect('/users/' + req.params.username);
     }).catch(function (err) {
       // error (not a 404 or 409)
@@ -118,7 +117,6 @@ app.post('/habits', function(req, res) {
 // GET /habits/:username
 app.get('/habits/:username', function(req, res) {
   // Get habits array from database.
-  console.log('req.params.rev:', req.query.rev)
   db.get(req.params.username, {rev: req.query.rev, revs: true}, function(error, doc) {
     if (error) {
       res.status(error.status).json(error);
