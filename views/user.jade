@@ -14,12 +14,11 @@ block content
           h4 Days:
           ul
             each day in habit.days
-              li
-                #[strong dayId:] #{day.dayId}
+              li #[strong dayId:] #{day.dayId}
                 br
-                #[strong created_at:] #{day.created_at}
+                | #[strong created_at:] #{day.created_at}
                 br
-                #[strong checked:] #{day.checked}
+                | #[strong checked:] #{day.checked}
                 
           h4 Reminder: #{habit.reminder}
             
@@ -42,4 +41,4 @@ block content
   ul(class='revisions')
     each rev, idx in user._revisions.ids.reverse()
       li
-        #[p #{idx + 1}: #[a(href='/users/#{user.username}?rev=#{idx + 1}-#{rev}') #{rev}]]
+        | #[p #{idx + 1}: #[a(href='/users/#{user.username}?rev=#{idx + 1}-#{rev}') #{rev}]]
