@@ -6,7 +6,7 @@ block content
 
   h3 Habits
   
-  if user.habits.length > 0
+  if user.habits && user.habits.length > 0
     ul
       each habit in user.habits
         li
@@ -14,7 +14,7 @@ block content
           h4 Days:
           ul
             each day in habit.days
-              li 
+              li
                 #[strong dayId:] #{day.dayId}
                 br
                 #[strong created_at:] #{day.created_at}
