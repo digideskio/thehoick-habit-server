@@ -6,7 +6,9 @@
   "dependencies": {
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
+    "jade": "^1.11.0",
     "pouchdb": "^5.2.0",
+    "pouchdb-upsert": "^2.0.0",
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {},

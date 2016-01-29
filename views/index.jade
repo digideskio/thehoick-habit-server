@@ -1,0 +1,13 @@
+extends ./layout.jade  
+
+block content
+  h1 Welcome to The Hoick Habit Server
+  h4 There is a JSON API.
+
+  p See the <a href="/help">Help</a> page for more details.
+
+  h3 Current Users:
+  ul
+    each habit in habits.rows
+      li
+        a(href='/users/#{habit.id}')= habit.id

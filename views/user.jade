@@ -1,0 +1,45 @@
+extends ./layout.jade  
+
+block content
+  h3 Username: #{user.username}
+  hr
+
+  h3 Habits
+  
+  if user.habits.length > 0
+    ul
+      each habit in user.habits
+        li
+          p= habit.name
+          h4 Days:
+          ul
+            each day in habit.days
+              li 
+                #[strong dayId:] #{day.dayId}
+                br
+                #[strong created_at:] #{day.created_at}
+                br
+                #[strong checked:] #{day.checked}
+                
+          h4 Reminder: #{habit.reminder}
+            
+  else
+    p No habits at this time...
+
+  hr
+  br
+  
+  h3 Current Revision
+  p= user._rev
+  a(href='/users/rollback/#{user.username}?rev=#{user._rev}') Use This Revision?
+
+  br
+  br
+  hr
+  br
+  
+  h3 Revisions
+  ul(class='revisions')
+    each rev, idx in user._revisions.ids.reverse()
+      li
+        #[p #{idx + 1}: #[a(href='/users/#{user.username}?rev=#{idx + 1}-#{rev}') #{rev}]]

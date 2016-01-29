@@ -1,0 +1,15 @@
+extends ./layout.jade  
+
+block content
+  h1 Houston You Have a Problem
+  
+  h3 A #{error.status} error has occurred.
+  
+  p 
+    strong Error Details:
+    br
+    em name: #{error.name} 
+    br
+    em message: #{error.message} 
+    br
+    em reason: #{error.reason}
