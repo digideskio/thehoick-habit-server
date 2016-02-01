@@ -6,19 +6,21 @@ block content
 
   h3 Habits
   
+  a(href="/new_habit/#{user.username}") New Habit
+  
   if user.habits && user.habits.length > 0
     ul
       each habit in user.habits
         li
           p= habit.name
-          h4 Days:
-          ul
-            each day in habit.days
-              li #[strong dayId:] #{day.dayId}
-                br
-                | #[strong created_at:] #{day.created_at}
-                br
-                | #[strong checked:] #{day.checked}
+          h4 Days: #{habit.days.length}
+          //- ul
+          //-   each day in habit.days
+          //-     li #[strong dayId:] #{day.dayId}
+          //-       br
+          //-       | #[strong created_at:] #{day.created_at}
+          //-       br
+          //-       | #[strong checked:] #{day.checked}
                 
           h4 Reminder: #{habit.reminder}
             

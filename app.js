@@ -35,7 +35,7 @@ app.get('/', function(req, res) {
 app.get('/users/:username', function(req, res) {
   db.get(req.params.username, {rev: req.query.rev, revs: true}, function(error, doc) {
     if (error) {
-      res.status(200).render('error', {error: error});
+      res.status(error.status).render('error', {error: error});
     }
 
     res.render('user', {user: doc});
@@ -53,6 +53,29 @@ app.get('/users/rollback/:username', function(req, res) {
     db.upsert(oldDoc._id, function(doc) {
       doc.habits = oldDoc.habits || [];
       return doc;
+    }).then((result) => {
+      // success!
+      res.redirect('/users/' + req.params.username);
+    }).catch(function (err) {
+      // error (not a 404 or 409)
+    });
+  });
+});
+
+// GET /new_habit
+app.get('/new_habit/:username', function(req, res) {
+  res.render('new_habit', {username: req.params.username})
+});
+
+// POST /users/:username - create Habits
+app.post('/users/:username', function(req, res) {
+  console.log('POST /users/username: req.body', req.body, 'req.params:', req.params);
+  db.get(req.params.username, function(error, oldDoc) {
+    console.log('doc:', oldDoc);
+
+    db.upsert(oldDoc._id, (doc) => {
+      oldDoc.habits.push({name: req.body.habit, days: []})
+      return oldDoc;
     }).then((result) => {
       // success!
       res.redirect('/users/' + req.params.username);
@@ -102,13 +125,31 @@ app.post('/habits', function(req, res) {
         res.json(newDoc);
       });
     } else {
+      var newHabits = doc.habits;
+      
+      // Loop through each Habit in the request body.
+      for (var i = 0; i < req.body.habits.length; i++) {
+        // Find the index of the Habit in doc.habits.
+        var habitIdx = doc.habits.findIndex(function(habit, index, habits) {
+          if (habit.name == req.body.habits[i].name) {
+            return true;
+          }
+        });
+
+        // Replace Habit in doc.habits with req.body habit.
+        if (habitIdx !== -1) {
+          newHabits[habitIdx] = req.body.habits[i]
+        }
+      }
+      doc.habits = newHabits;
+
       // Update the doc.
-      db.put(req.body, doc._id, doc._rev, (error, updatedDoc) => {
+      db.put(doc, doc._id, doc._rev, (error, updatedDoc) => {
         if (error) {
           res.status(error.status).json(error);
         }
 
-        res.json(updatedDoc);
+        res.json(doc);
       });
     }
   })

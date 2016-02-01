@@ -1,0 +1,13 @@
+extends ./layout.jade  
+
+block content
+  h2 New Habit for 
+  
+  form(action='/users/#{username}', method='post')
+    label(for='habit') Habit
+    br
+    input(type='text', name='habit', id='habit')
+
+    br
+    br
+    input(type='submit', value='Save Habit')

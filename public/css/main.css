@@ -71,3 +71,7 @@ hr.nav {
     border-top: 1px solid rgba(244, 170, 49, 0.9);
     border-bottom: 1px solid rgba(244, 170, 49, 0.8);
 }
+
+input {
+  padding: 5px;
+}
