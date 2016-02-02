@@ -109,6 +109,8 @@ app.get('/habits', function(req, res) {
 
 // POST /habits/
 app.post('/habits', function(req, res) {
+  options = req.body.options || {};
+  
   // Look for the document in the database.
   db.get(req.body.username, (error, doc) => {
     // If there is no document for that user create one.
@@ -126,7 +128,7 @@ app.post('/habits', function(req, res) {
       });
     } else {
       var newHabits = doc.habits;
-      
+
       // Loop through each Habit in the request body.
       for (var i = 0; i < req.body.habits.length; i++) {
         // Find the index of the Habit in doc.habits.
@@ -136,9 +138,24 @@ app.post('/habits', function(req, res) {
           }
         });
 
-        // Replace Habit in doc.habits with req.body habit.
+        // Replace Habit in doc.habits with req.body habit if lastDay is newer.
         if (habitIdx !== -1) {
-          newHabits[habitIdx] = req.body.habits[i]
+          var oldHabit = newHabits[habitIdx];
+          var newHabit = req.body.habits[i];
+          var oldLastDay = oldHabit.days[oldHabit.days.length - 1];
+          var newLastDay = newHabit.days[newHabit.days.length - 1];
+
+          // Check for first day.
+          if (options.flag == 'chain-restarted' || newHabit.days.length == 1) {
+            newHabits[habitIdx] = req.body.habits[i];
+          } else {
+            // Check that oldLastDay and newLastDay are on the same day.
+            if (newLastDay && newLastDay.dayId != oldLastDay.dayId) {
+              newHabits[habitIdx] = req.body.habits[i];
+            }
+          }
+        } else {
+          newHabits.push(req.body.habits[i]);
         }
       }
       doc.habits = newHabits;
